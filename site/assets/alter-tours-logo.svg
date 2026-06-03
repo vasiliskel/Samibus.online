@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" role="img" aria-label="Alter Tours">
+  <!-- logo mark -->
+  <circle cx="150" cy="145" r="118" fill="#86c224"/>
+  <circle cx="150" cy="145" r="66" fill="#d9822e"/>
+  <!-- detached dot, with a clear gap from the main circle -->
+  <circle cx="225" cy="290" r="20" fill="#86c224"/>
+  <!-- wordmark -->
+  <text x="300" y="212" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="200" font-weight="400">
+    <tspan fill="#e9e9e9">Alter</tspan><tspan fill="#e7d9b0"> Tours</tspan>
+  </text>
+</svg>

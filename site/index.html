@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Antisamos Express &middot; Daily Beach Shuttle in Kefalonia</title>
+  <meta name="description" content="Antisamos Express — daily beach shuttle service in Kefalonia. Agia Efimia · Agia Paraskevi · Karavomylos · Sami · Antisamos Beach. Operated by Alter Tours." />
+  <meta name="theme-color" content="#0d2a4a" />
+
+  <meta property="og:title" content="Antisamos Express — Daily Beach Shuttle in Kefalonia" />
+  <meta property="og:description" content="Ride easy. Explore more. Daily shuttle to Kefalonia's most beautiful beaches." />
+  <meta property="og:image" content="/assets/hero.jpg" />
+  <meta property="og:url" content="https://samibus.online" />
+  <meta property="og:type" content="website" />
+
+  <link rel="preload" as="image" href="/assets/hero.jpg" />
+  <style>
+    :root {
+      --navy: #0d2a4a;
+      --navy-2: #163a64;
+      --teal: #2fb7c2;
+      --lime: #b8d94a;
+      --cream: #f6f1e7;
+      --ink: #14213d;
+      --muted: #6b7a90;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background: var(--cream);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--teal); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+      overflow: hidden;
+      background: linear-gradient(160deg, #0d2a4a 0%, #163a64 45%, #0e6b78 100%);
+    }
+    /* faint, heavily-darkened bus photo as texture only — never competes with text */
+    .hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background: url('/assets/hero.jpg') center top/cover no-repeat;
+      opacity: .14;
+      filter: grayscale(0.3) brightness(0.7);
+      z-index: 0;
+    }
+    /* extra dark vignette to guarantee text contrast */
+    .hero::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(5,18,35,.25) 0%, rgba(5,18,35,.75) 100%);
+      z-index: 0;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      padding: 2rem 1.25rem;
+      max-width: 900px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      background: rgba(0,0,0,.65);
+      padding: .55rem 1.1rem;
+      border-radius: 999px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      margin-bottom: 1.5rem;
+    }
+    .brand-logo {
+      height: 34px;
+      width: auto;
+      display: block;
+    }
+    .brand-dot {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #ffd34d, #e9602d 70%);
+      box-shadow: 0 0 0 2px rgba(255,255,255,.15);
+    }
+    h1 {
+      font-size: clamp(2.6rem, 7vw, 5.5rem);
+      margin: 0 0 .25rem;
+      letter-spacing: .02em;
+      text-shadow: 0 4px 24px rgba(0,0,0,.4);
+    }
+    .subtitle {
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1.6rem, 4vw, 3rem);
+      color: var(--teal);
+      margin: 0 0 1rem;
+    }
+    .tag {
+      display: inline-block;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.25);
+      padding: .5rem 1.1rem;
+      border-radius: 6px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: .85rem;
+      margin-bottom: 1.5rem;
+    }
+    .stops {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: .5rem 1.2rem;
+      font-weight: 600;
+      font-size: .95rem;
+      margin: 1rem 0 2rem;
+    }
+    .stops span::before {
+      content: "📍";
+      margin-right: .3rem;
+      color: var(--lime);
+    }
+    .coming-soon {
+      display: inline-block;
+      background: var(--lime);
+      color: var(--navy);
+      padding: .9rem 1.8rem;
+      border-radius: 8px;
+      font-weight: 800;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      box-shadow: 0 8px 24px rgba(0,0,0,.3);
+    }
+    .cta {
+      display: inline-block;
+      margin-top: 1.25rem;
+      color: #fff;
+      border: 2px solid var(--teal);
+      background: rgba(47,183,194,.15);
+      padding: .7rem 1.4rem;
+      border-radius: 8px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      transition: background .2s ease, transform .15s ease;
+    }
+    .cta:hover { background: var(--teal); text-decoration: none; transform: translateY(-2px); }
+    .scroll-hint {
+      margin-top: 2.5rem;
+      font-size: .85rem;
+      opacity: .8;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    /* Sections */
+    section { padding: 4rem 1.25rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      color: var(--navy);
+      margin: 0 0 1.5rem;
+      letter-spacing: .01em;
+    }
+
+    /* Features */
+    .features {
+      background: #fff;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .feature {
+      background: var(--navy);
+      color: #fff;
+      padding: 1.25rem 1.25rem;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: .9rem;
+      font-weight: 600;
+      letter-spacing: .03em;
+    }
+    .feature .ic {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--lime);
+      display: grid; place-items: center;
+      color: var(--navy);
+      font-size: 1.2rem;
+      flex: 0 0 36px;
+    }
+
+    /* Route */
+    .route {
+      background: var(--cream);
+    }
+    .route-title-bar {
+      display: inline-block;
+      background: var(--navy);
+      color: #fff;
+      padding: .35rem 1rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      margin-bottom: 1.25rem;
+    }
+    .route-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-width: 520px;
+    }
+    .route-list li {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: .8rem 0;
+      border-bottom: 1px dashed rgba(13,42,74,.2);
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: .04em;
+    }
+    .route-list li::before {
+      content: "";
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 0 3px rgba(184,217,74,.25);
+      flex: 0 0 14px;
+    }
+    .route-back {
+      margin-top: 1rem;
+      font-style: italic;
+      color: var(--teal);
+      font-weight: 600;
+    }
+
+    /* Coming soon details */
+    .info {
+      background: #fff;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    @media (max-width: 760px) {
+      .info-grid { grid-template-columns: 1fr; }
+    }
+    .info p { color: var(--muted); }
+    .qr-card {
+      background: var(--cream);
+      border: 1px solid rgba(13,42,74,.1);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .qr-card img { width: 220px; max-width: 100%; }
+    .qr-card .label {
+      display: inline-block;
+      margin-bottom: .8rem;
+      background: var(--teal);
+      color: #fff;
+      padding: .35rem 1rem;
+      border-radius: 6px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      font-size: .8rem;
+    }
+
+    .contact-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0 0;
+    }
+    .contact-list li {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .55rem 0;
+      font-weight: 600;
+    }
+    .contact-list .ic {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: #fff;
+      display: grid; place-items: center;
+      flex: 0 0 36px;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--navy);
+      color: #fff;
+      text-align: center;
+      padding: 2rem 1.25rem;
+    }
+    footer .brand { background: transparent; padding: 0; margin-bottom: .75rem; }
+    footer .brand-logo { height: 40px; }
+    footer .operated {
+      font-style: italic;
+      color: var(--teal);
+      font-weight: 300;
+      font-size: 1.1rem;
+    }
+    footer .small {
+      margin-top: 1rem;
+      font-size: .85rem;
+      opacity: .7;
+    }
+
+    /* Timetables */
+    .timetables { background: var(--cream); }
+    .tt-wrap { margin-top: 1.5rem; }
+    .tt-loading { color: var(--muted); }
+    .tt-section { margin-bottom: 2.5rem; }
+    .tt-section h3 {
+      color: var(--navy);
+      font-size: 1.3rem;
+      margin: 0 0 .25rem;
+      display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap;
+    }
+    .tt-section .tt-sub {
+      font-style: italic;
+      color: var(--teal);
+      font-weight: 600;
+      font-size: .95rem;
+    }
+    .tt-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(13,42,74,.06);
+    }
+    .tt-table th, .tt-table td {
+      padding: .75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(13,42,74,.08);
+      vertical-align: top;
+    }
+    .tt-table th {
+      background: var(--navy);
+      color: #fff;
+      font-size: .8rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .tt-table tr:last-child td { border-bottom: none; }
+    .tt-table .tt-from { font-weight: 700; color: var(--navy); white-space: nowrap; }
+    .tt-table .tt-to { color: var(--ink); }
+    .tt-times { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .tt-times .t {
+      background: var(--lime);
+      color: var(--navy);
+      font-weight: 700;
+      padding: .2rem .55rem;
+      border-radius: 5px;
+      font-size: .85rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .tt-empty { color: var(--muted); font-style: italic; }
+    @media (max-width: 640px) {
+      .tt-table, .tt-table tbody, .tt-table tr, .tt-table td { display: block; width: 100%; }
+      .tt-table thead { display: none; }
+      .tt-table tr { margin-bottom: 1rem; border: 1px solid rgba(13,42,74,.1); border-radius: 10px; padding: .5rem; }
+      .tt-table td { border: none; padding: .35rem .5rem; }
+      .tt-table .tt-from { font-size: 1.05rem; }
+    }
+
+    /* Flyer preview */
+    .flyer-preview {
+      background: var(--navy-2);
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+    .flyer-preview h2 { color: #fff; }
+    .flyer-preview img {
+      max-width: 100%;
+      width: 720px;
+      border-radius: 8px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.4);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="brand">
+        <img src="/assets/alter-tours-logo.svg" alt="Alter Tours" class="brand-logo" />
+      </div>
+      <h1>ANTISAMOS</h1>
+      <p class="subtitle">— Express —</p>
+      <div class="tag">Daily Beach Shuttle Service in Kefalonia</div>
+
+      <div class="stops">
+        <span>Agia Efimia</span>
+        <span>Agia Paraskevi Beach</span>
+        <span>Karavomylos</span>
+        <span>Sami</span>
+        <span>Antisamos Beach</span>
+      </div>
+
+      <div class="coming-soon">Website coming soon</div>
+      <a href="#timetables" class="cta">View timetables &amp; departure times →</a>
+      <div class="scroll-hint">Ride easy · Explore more</div>
+    </div>
+  </header>
+
+  <section class="features">
+    <div class="container">
+      <h2>Your easy ride to Kefalonia's most beautiful beaches</h2>
+      <p>The <em>Antisamos Express</em> connects the island's most popular seaside locations with daily shuttle routes throughout the day. Comfort, style and flexibility — no parking stress.</p>
+
+      <div class="features-grid">
+        <div class="feature"><span class="ic">📅</span> Daily Routes</div>
+        <div class="feature"><span class="ic">📶</span> Free Wi-Fi on Board</div>
+        <div class="feature"><span class="ic">❄</span> Air-Conditioned Coach</div>
+        <div class="feature"><span class="ic">📍</span> Easy Access to Antisamos</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="route">
+    <div class="container">
+      <div class="route-title-bar">Our Route</div>
+      <h2>From Agia Efimia to Antisamos Beach</h2>
+      <ul class="route-list">
+        <li>Agia Efimia</li>
+        <li>Agia Paraskevi Beach</li>
+        <li>Karavomylos</li>
+        <li>Sami</li>
+        <li>Antisamos Beach</li>
+      </ul>
+      <p class="route-back">↺ …and back!</p>
+      <p style="margin-top:1.5rem;"><strong>★ Special Sunday evening routes</strong> available for Antisamos beach parties.</p>
+    </div>
+  </section>
+
+  <section class="timetables" id="timetables">
+    <div class="container">
+      <div class="route-title-bar">Timetables</div>
+      <h2>Departure times</h2>
+      <p style="color:var(--muted);margin-top:-.5rem;">No reservation needed · Pay on board. Times are subject to change — follow us for live updates.</p>
+      <div id="timetables-content" class="tt-wrap">
+        <p class="tt-loading">Loading timetables…</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="info">
+    <div class="container info-grid">
+      <div>
+        <div class="route-title-bar">Updates &amp; Contact</div>
+        <h2>Stay in the loop</h2>
+        <p>Follow us on social media for the latest updates and route times — or contact us directly. <strong>No reservation needed · Pay on board.</strong></p>
+
+        <ul class="contact-list">
+          <li><span class="ic">📞</span> <a href="tel:+306942219056">+30 694 221 9056</a></li>
+          <li><span class="ic">✉</span> <a href="mailto:alterexploringteam@gmail.com">alterexploringteam@gmail.com</a></li>
+          <li><span class="ic">📷</span> <a href="https://instagram.com/alterexploring_team" target="_blank" rel="noopener">@alterexploring_team</a></li>
+          <li><span class="ic">f</span> <a href="https://facebook.com/AlterExploring" target="_blank" rel="noopener">Alter Exploring</a></li>
+          <li><span class="ic">🌐</span> <a href="https://alterexploring.com" target="_blank" rel="noopener">alterexploring.com</a></li>
+        </ul>
+      </div>
+
+      <aside class="qr-card">
+        <span class="label">Scan for updates</span>
+        <img src="/assets/qr-samibus.svg" alt="QR code linking to samibus.online" />
+        <p style="margin:.75rem 0 0;color:var(--teal);font-weight:700;">samibus.online</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="flyer-preview">
+    <h2>Pick up our flyer around the island</h2>
+    <img src="/assets/flyer-full.jpg" alt="Antisamos Express flyer" loading="lazy" />
+  </section>
+
+  <footer>
+    <div class="brand">
+      <img src="/assets/alter-tours-logo.svg" alt="Alter Tours" class="brand-logo" />
+    </div>
+    <div class="operated">Operated by <em>Alter Exploring Team</em> ♡</div>
+    <div class="small">© <span id="y"></span> samibus.online · All rights reserved</div>
+  </footer>
+
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+  <script>
+    (function () {
+      var el = document.getElementById('timetables-content');
+      function esc(s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      }
+      function renderTimes(times) {
+        return String(times || '')
+          .split(/\s+/)
+          .filter(Boolean)
+          .map(function (t) { return '<span class="t">' + esc(t) + '</span>'; })
+          .join('');
+      }
+      fetch('/api/timetables')
+        .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+        .then(function (sections) {
+          if (!sections.length) {
+            el.innerHTML = '<p class="tt-empty">Timetables will be published soon.</p>';
+            return;
+          }
+          el.innerHTML = sections.map(function (s) {
+            var rows = (s.routes || []).map(function (r) {
+              return '<tr>' +
+                '<td class="tt-from">' + esc(r.origin) + '</td>' +
+                '<td class="tt-to">' + esc(r.destinations) + '</td>' +
+                '<td><div class="tt-times">' + renderTimes(r.times) + '</div></td>' +
+                '</tr>';
+            }).join('');
+            var body = rows
+              ? '<table class="tt-table"><thead><tr><th>From</th><th>To</th><th>Departures</th></tr></thead><tbody>' + rows + '</tbody></table>'
+              : '<p class="tt-empty">Schedule coming soon.</p>';
+            return '<div class="tt-section">' +
+              '<h3>' + esc(s.title) + (s.subtitle ? ' <span class="tt-sub">' + esc(s.subtitle) + '</span>' : '') + '</h3>' +
+              body +
+              '</div>';
+          }).join('');
+        })
+        .catch(function () {
+          el.innerHTML = '<p class="tt-empty">Timetables are temporarily unavailable. Please check back soon.</p>';
+        });
+    })();
+  </script>
+</body>
+</html>

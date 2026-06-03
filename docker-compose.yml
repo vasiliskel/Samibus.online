@@ -1,0 +1,43 @@
+name: samibus-online
+
+# samibus.online — Antisamos Express landing + timetables.
+# - frontend: static nginx serving the site + admin backoffice, proxies /api/ to backend
+# - backend:  Node/Express timetable API, uses the SHARED MySQL container of the
+#             `alterexploring` stack (schema: samibus_online).
+# Both join the external `alterexploring_internal` network.
+
+services:
+  backend:
+    build:
+      context: ./backend
+    image: samibus-online-backend
+    container_name: samibus-online-backend
+    restart: unless-stopped
+    environment:
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      DB_USER: ${SAMIBUS_DB_USER:-samibus_user}
+      DB_PASSWORD: ${SAMIBUS_DB_PASSWORD:?set in .env}
+      DB_NAME: samibus_online
+      JWT_SECRET: ${SAMIBUS_JWT_SECRET:-samibus-dev-secret-change-me}
+      ADMIN_USERNAME: ${SAMIBUS_ADMIN_USER:-admin}
+      ADMIN_PASSWORD: ${SAMIBUS_ADMIN_PASSWORD:-changeme}
+      PORT: "3000"
+    networks:
+      - shared
+
+  frontend:
+    build:
+      context: .
+    image: samibus-online-frontend
+    container_name: samibus-online-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    networks:
+      - shared
+
+networks:
+  shared:
+    external: true
+    name: alterexploring_internal

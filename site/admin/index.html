@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Samibus Admin · Timetables</title>
+  <style>
+    :root {
+      --navy: #0d2a4a;
+      --navy-2: #163a64;
+      --teal: #2fb7c2;
+      --lime: #b8d94a;
+      --cream: #f6f1e7;
+      --ink: #14213d;
+      --muted: #6b7a90;
+      --danger: #d9534f;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+    }
+    header.bar {
+      background: var(--navy);
+      color: #fff;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header.bar .title { font-weight: 800; letter-spacing: .04em; }
+    header.bar .who { font-size: .85rem; opacity: .85; display: flex; gap: 1rem; align-items: center; }
+    main { max-width: 1000px; margin: 2rem auto; padding: 0 1.25rem; }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      padding: .55rem 1rem;
+      font-weight: 700;
+    }
+    .btn-primary { background: var(--teal); color: #fff; }
+    .btn-lime { background: var(--lime); color: var(--navy); }
+    .btn-ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.4); }
+    .btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); padding: .35rem .7rem; }
+    .btn-sm { padding: .35rem .7rem; font-size: .85rem; }
+
+    /* login */
+    .login-card {
+      max-width: 360px;
+      margin: 6rem auto;
+      background: #fff;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 12px 40px rgba(13,42,74,.12);
+    }
+    .login-card h1 { margin: 0 0 1.25rem; color: var(--navy); font-size: 1.4rem; }
+    label { display: block; font-size: .8rem; font-weight: 700; color: var(--muted); margin: .75rem 0 .25rem; text-transform: uppercase; letter-spacing: .05em; }
+    input, textarea {
+      width: 100%;
+      font: inherit;
+      padding: .6rem .7rem;
+      border: 1px solid rgba(13,42,74,.2);
+      border-radius: 6px;
+      background: #fff;
+    }
+    input:focus, textarea:focus { outline: 2px solid var(--teal); border-color: transparent; }
+    .err { color: var(--danger); font-size: .85rem; margin-top: .75rem; min-height: 1.2em; }
+
+    /* sections */
+    .section-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(13,42,74,.06);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    .section-head {
+      background: var(--navy-2);
+      color: #fff;
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      align-items: center;
+    }
+    .section-head input { flex: 1 1 180px; min-width: 120px; }
+    .section-head input.sub { flex: 1 1 160px; opacity: .95; }
+    .section-head input.pos { flex: 0 0 70px; width: 70px; text-align: center; }
+
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: .6rem .75rem; text-align: left; border-bottom: 1px solid rgba(13,42,74,.08); vertical-align: top; }
+    th { background: var(--cream); font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+    td input { width: 100%; }
+    td.pos input { width: 60px; text-align: center; }
+    .row-actions { white-space: nowrap; }
+    .add-row { padding: 1rem 1.25rem; background: var(--cream); }
+    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; gap: 1rem; flex-wrap: wrap; }
+    .toolbar h2 { margin: 0; color: var(--navy); }
+    .hint { font-size: .8rem; color: var(--muted); margin-top: .25rem; }
+    .toast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem;
+      background: var(--navy); color: #fff;
+      padding: .8rem 1.2rem; border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.25);
+      opacity: 0; transform: translateY(10px);
+      transition: opacity .2s, transform .2s;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Login ===== -->
+  <div id="login-view">
+    <div class="login-card">
+      <h1>Samibus Admin</h1>
+      <form id="login-form">
+        <label for="u">Username</label>
+        <input id="u" autocomplete="username" required />
+        <label for="p">Password</label>
+        <input id="p" type="password" autocomplete="current-password" required />
+        <div class="err" id="login-err"></div>
+        <button class="btn-primary" style="width:100%;margin-top:1rem;">Sign in</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== App ===== -->
+  <div id="app-view" class="hidden">
+    <header class="bar">
+      <span class="title">Samibus · Timetable Admin</span>
+      <span class="who">
+        <a href="/" target="_blank" style="color:#fff;">View site ↗</a>
+        <span id="who-name"></span>
+        <button class="btn-ghost btn-sm" id="logout">Log out</button>
+      </span>
+    </header>
+    <main>
+      <div class="toolbar">
+        <div>
+          <h2>Timetable sections</h2>
+          <div class="hint">Edit fields and click <strong>Save</strong> on each row. Times are space-separated, e.g. <code>10.30 14.30 18.30</code>.</div>
+        </div>
+        <button class="btn-lime" id="add-section">+ Add section</button>
+      </div>
+      <div id="sections"></div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    var token = localStorage.getItem('samibus_token') || '';
+    var username = localStorage.getItem('samibus_user') || '';
+
+    var loginView = document.getElementById('login-view');
+    var appView = document.getElementById('app-view');
+    var sectionsEl = document.getElementById('sections');
+    var toastEl = document.getElementById('toast');
+    var toastTimer;
+
+    function toast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 2200);
+    }
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    function api(method, path, body) {
+      return fetch('/api' + path, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: body ? JSON.stringify(body) : undefined
+      }).then(function (r) {
+        if (r.status === 401) { logout(); throw new Error('unauthorized'); }
+        if (!r.ok) return r.json().catch(function(){return {};}).then(function (e) { throw new Error(e.error || ('HTTP ' + r.status)); });
+        if (r.status === 204) return null;
+        return r.json();
+      });
+    }
+
+    function showApp() {
+      loginView.classList.add('hidden');
+      appView.classList.remove('hidden');
+      document.getElementById('who-name').textContent = username;
+      load();
+    }
+    function logout() {
+      token = ''; username = '';
+      localStorage.removeItem('samibus_token');
+      localStorage.removeItem('samibus_user');
+      appView.classList.add('hidden');
+      loginView.classList.remove('hidden');
+    }
+
+    document.getElementById('login-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var errEl = document.getElementById('login-err');
+      errEl.textContent = '';
+      fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: document.getElementById('u').value, password: document.getElementById('p').value })
+      }).then(function (r) {
+        if (!r.ok) throw new Error('Invalid credentials');
+        return r.json();
+      }).then(function (d) {
+        token = d.token; username = d.username;
+        localStorage.setItem('samibus_token', token);
+        localStorage.setItem('samibus_user', username);
+        showApp();
+      }).catch(function (err) { errEl.textContent = err.message; });
+    });
+
+    document.getElementById('logout').addEventListener('click', logout);
+
+    document.getElementById('add-section').addEventListener('click', function () {
+      api('POST', '/admin/sections', { title: 'New section', subtitle: '', position: 99 })
+        .then(function () { toast('Section added'); load(); })
+        .catch(function (e) { toast(e.message); });
+    });
+
+    function sectionCard(s) {
+      var rows = (s.routes || []).map(routeRow).join('');
+      return '' +
+        '<div class="section-card" data-sid="' + s.id + '">' +
+          '<div class="section-head">' +
+            '<input class="s-title" value="' + esc(s.title) + '" placeholder="Section title" />' +
+            '<input class="s-sub sub" value="' + esc(s.subtitle || '') + '" placeholder="Subtitle (optional)" />' +
+            '<input class="s-pos pos" type="number" value="' + (s.position || 0) + '" title="Position" />' +
+            '<button class="btn-lime btn-sm s-save">Save</button>' +
+            '<button class="btn-danger btn-sm s-del">Delete section</button>' +
+          '</div>' +
+          '<table>' +
+            '<thead><tr><th style="width:22%">From</th><th style="width:30%">To</th><th>Departures (space-separated)</th><th style="width:60px">Pos</th><th></th></tr></thead>' +
+            '<tbody>' + rows + '</tbody>' +
+          '</table>' +
+          '<div class="add-row"><button class="btn-primary btn-sm r-add">+ Add route</button></div>' +
+        '</div>';
+    }
+
+    function routeRow(r) {
+      return '' +
+        '<tr data-rid="' + r.id + '">' +
+          '<td><input class="r-origin" value="' + esc(r.origin) + '" /></td>' +
+          '<td><input class="r-dest" value="' + esc(r.destinations) + '" /></td>' +
+          '<td><input class="r-times" value="' + esc(r.times) + '" /></td>' +
+          '<td class="pos"><input class="r-pos" type="number" value="' + (r.position || 0) + '" /></td>' +
+          '<td class="row-actions">' +
+            '<button class="btn-lime btn-sm r-save">Save</button> ' +
+            '<button class="btn-danger btn-sm r-del">✕</button>' +
+          '</td>' +
+        '</tr>';
+    }
+
+    function load() {
+      api('GET', '/timetables').then(function (sections) {
+        sectionsEl.innerHTML = sections.map(sectionCard).join('') ||
+          '<p style="color:var(--muted)">No sections yet. Click “Add section”.</p>';
+      }).catch(function (e) { toast(e.message); });
+    }
+
+    // event delegation for all the dynamic buttons
+    sectionsEl.addEventListener('click', function (e) {
+      var card = e.target.closest('.section-card');
+      if (!card) return;
+      var sid = card.getAttribute('data-sid');
+
+      if (e.target.classList.contains('s-save')) {
+        api('PUT', '/admin/sections/' + sid, {
+          title: card.querySelector('.s-title').value,
+          subtitle: card.querySelector('.s-sub').value,
+          position: Number(card.querySelector('.s-pos').value)
+        }).then(function () { toast('Section saved'); }).catch(function (err) { toast(err.message); });
+      }
+
+      if (e.target.classList.contains('s-del')) {
+        if (!confirm('Delete this section and all its routes?')) return;
+        api('DELETE', '/admin/sections/' + sid).then(function () { toast('Section deleted'); load(); }).catch(function (err) { toast(err.message); });
+      }
+
+      if (e.target.classList.contains('r-add')) {
+        api('POST', '/admin/routes', { section_id: Number(sid), origin: 'From', destinations: 'To', times: '00.00', position: 99 })
+          .then(function () { toast('Route added'); load(); }).catch(function (err) { toast(err.message); });
+      }
+
+      var tr = e.target.closest('tr[data-rid]');
+      if (!tr) return;
+      var rid = tr.getAttribute('data-rid');
+
+      if (e.target.classList.contains('r-save')) {
+        api('PUT', '/admin/routes/' + rid, {
+          origin: tr.querySelector('.r-origin').value,
+          destinations: tr.querySelector('.r-dest').value,
+          times: tr.querySelector('.r-times').value,
+          position: Number(tr.querySelector('.r-pos').value)
+        }).then(function () { toast('Route saved'); }).catch(function (err) { toast(err.message); });
+      }
+
+      if (e.target.classList.contains('r-del')) {
+        if (!confirm('Delete this route?')) return;
+        api('DELETE', '/admin/routes/' + rid).then(function () { toast('Route deleted'); load(); }).catch(function (err) { toast(err.message); });
+      }
+    });
+
+    // boot
+    if (token) { showApp(); }
+  </script>
+</body>
+</html>
