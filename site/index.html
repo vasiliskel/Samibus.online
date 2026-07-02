@@ -20,6 +20,7 @@
       --navy-2: #163a64;
       --teal: #2fb7c2;
       --lime: #b8d94a;
+      --yellow: #ffd60a;
       --cream: #f6f1e7;
       --ink: #14213d;
       --muted: #6b7a90;
@@ -131,30 +132,21 @@
       margin-right: .3rem;
       color: var(--lime);
     }
-    .coming-soon {
-      display: inline-block;
-      background: var(--lime);
-      color: var(--navy);
-      padding: .9rem 1.8rem;
-      border-radius: 8px;
-      font-weight: 800;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      box-shadow: 0 8px 24px rgba(0,0,0,.3);
-    }
     .cta {
       display: inline-block;
       margin-top: 1.25rem;
-      color: #fff;
-      border: 2px solid var(--teal);
-      background: rgba(47,183,194,.15);
-      padding: .7rem 1.4rem;
+      color: var(--navy);
+      border: 2px solid var(--yellow);
+      background: var(--yellow);
+      padding: .9rem 1.8rem;
       border-radius: 8px;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: .04em;
+      text-transform: uppercase;
+      box-shadow: 0 8px 24px rgba(0,0,0,.3);
       transition: background .2s ease, transform .15s ease;
     }
-    .cta:hover { background: var(--teal); text-decoration: none; transform: translateY(-2px); }
+    .cta:hover { background: #ffe14d; border-color: #ffe14d; text-decoration: none; transform: translateY(-2px); }
     .scroll-hint {
       margin-top: 2.5rem;
       font-size: .85rem;
@@ -422,7 +414,6 @@
         <span>Antisamos Beach</span>
       </div>
 
-      <div class="coming-soon">Website coming soon</div>
       <a href="#timetables" class="cta">View timetables &amp; departure times →</a>
       <div class="scroll-hint">Ride easy · Explore more</div>
     </div>
